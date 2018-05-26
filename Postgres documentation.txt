@@ -1,0 +1,88 @@
+-- this is my Postgres program location
+http://127.0.0.1:50198/browser/
+
+
+
+int
+strings  varchar(255)
+strings text
+bool
+date
+---// use single quotation marks only '' for strings // -----------------
+
+create table students (
+id int PRIMARY KEY,
+first_name varchar(255),
+last_name varchar(255),
+gender varchar(255)
+);
+
+create table todo (
+id int PRIMARY KEY,
+name varchar(255),
+description text,
+priority varchar(255)
+);
+
+create table chores (
+id int PRIMARY KEY,
+name varchar(255),
+description text,
+asignee varchar(255),
+due_date date,
+date_completed date
+);
+
+**********************************************
+insert into std_classroom_seats 
+( id, student_id, classroom_seat_id)
+values 
+( 1, 1, 'C')
+
+insert into students 
+(id, first_name, last_name, gender)
+values 
+(2, 'Farid', 'Safarov', 32),
+(3, 'Zaur', 'Mamedov', 45)
+
+insert into chores 
+(id, name, description, asignee, due_date, date_completed)
+values 
+(2, 'Farid', 'My friend', 'student', '15March2017', '22June2017' ),
+(3, 'Sohor', 'My friend2', 'student2', '10March2017', '17June2017' )
+
+
+
+insert into laptops 
+(id, brand, operating_system, student_id)
+values 
+(1, 'Dell', 'Windows-10', 1)
+
+*************************************************************
+select * from students
+
+select first_name, last_name from students
+
+select first_name as "First Name", last_name as "Last Name" from students
+
+select * from students
+where first_name like '%g%'  --// means having letter 'g' in it  
+
+select * from students
+order by first_name asc
+order by first_name desc
+
+// updating column in table
+update std_classroom_seats
+set classroom_seat_id = 1
+where id=1
+*************************************************************************
+rake db:create_migration  NAME=create_todos_table
+
+
+
+
+
+
+
+

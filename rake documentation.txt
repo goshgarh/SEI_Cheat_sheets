@@ -1,0 +1,113 @@
+Prepare your app.rb file like follows:
+  require 'csv'
+require 'sinatra'
+#require 'restart'
+require './models'
+************************
+then your models.rb file should be as follows with all the classes:
+    require 'sinatra/activerecord'
+
+class Customer < ActiveRecord::Base
+    has_many :transactions
+    has_many :cars, through: :transactions
+end
+
+class Car < ActiveRecord::Base
+   has_many :transactions
+   has_many :customers, through: :transactions
+end
+
+class Transaction < ActiveRecord::Base
+    belongs_to :customer
+    belongs_to :car
+    
+end
+***************************
+
+then your database.yml file should be as follows:
+
+   defaults: &defaults
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  timeout: 5000
+  
+
+
+development:
+  <<: *defaults
+  database: customer_car
+  username: postgres
+  password: 1234
+  
+*********************************
+
+then your Rakefile as follows:
+ require './app'
+ require 'restart'
+require 'sinatra/activerecord/rake'
+
+**************************************
+
+then your Gemfile as follows:
+   source "https://rubygems.org"
+
+gem 'sinatra-activerecord', '~> 2.0'
+gem 'rake'
+gem 'pg'
+
+gem 'restart', '~> 2.0'
+
+*********************************************
+then create manually required database in pgAdmin(i.e. in postgresql ),
+let us say database 'customer_car' or 'todo'
+
+******************************************
+once they are ready run
+ bundle
+
+*******************************
+
+
+***************************************** 
+rake db:create_migration  NAME=create_todos_table
+--this creates table
+
+then you write in your newly created file 
+db/migrate/20180525184334_create_todos_table.rb the following
+
+class CreateTodosTable < ActiveRecord::Migration[5.2]
+  def change
+      create_table :todos do |t|
+         t.string :name
+         t.string :description
+          
+      end
+  end
+end
+then run the following command 
+rake db:migrate
+
+it will create for you schema.rb in the db folder
+**********************
+then you may want to run app.rb file to create all rows and columns, using 
+.csv file, into your postgres database
+
+
+if you want to redo or delete migration then run the following command
+rake db:rollback
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
